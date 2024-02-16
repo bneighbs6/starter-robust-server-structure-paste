@@ -36,3 +36,8 @@ module.exports = [
         text: "ls -lAF | perl -e ’while (<>) { next if /^[dt]/; print +(split)[4], '\n' } ’"
     }
 ]
+
+/*
+The above code defines an array of paste 
+records and exports it for use in the app.js file. 
+*/
