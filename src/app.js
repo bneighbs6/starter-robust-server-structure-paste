@@ -12,17 +12,17 @@ const pastes = require("./data/pastes-data");
 
 // Route for "/pastes/:pasteId".
 app.use("/pastes/:pasteId", (req, res, next) => {
-// Defines pasteId variable by destructuring it from req.params
-  const {pasteId} = req.params;
-// Use find() array method to search for the paste by Id.
-// If no id matches, find() returns undefined.
+  // Defines pasteId variable by destructuring it from req.params
+  const { pasteId } = req.params;
+  // Use find() array method to search for the paste by Id.
+  // If no id matches, find() returns undefined.
   const foundPaste = pastes.find((paste) => paste.id === Number(pasteId));
 
-// if foundPaste = truthy, then sends data with foundPaste object to the client as json. 
+  // if foundPaste = truthy, then sends data with foundPaste object to the client as json. 
   if (foundPaste) {
-    res.json({data: foundPaste});
+    res.json({ data: foundPaste });
   } else {
-// Calls next with an error mesage to move request to error handler. 
+    // Calls next with an error mesage to move request to error handler. 
     next(`Paste id not found: ${pasteId}`);
   }
 })
@@ -32,7 +32,7 @@ app.use("/pastes/:pasteId", (req, res, next) => {
 
 //By changing the code from app.use(...) to app.get(...), you're making it so that the handler will be called only if the HTTP method of the incoming request is GET.
 app.get("/pastes", (req, res) => {
-  res.json({data: pastes});
+  res.json({ data: pastes });
 });
 
 // POST Request. ONLY used when making POST request to "/pastes"
@@ -42,17 +42,21 @@ let lastPasteId = pastes.reduce((maxId, paste) => Math.max(maxId, paste.id), 0);
 
 app.post("/pastes", (req, res, next) => {
   const { data: { name, syntax, exposure, expiration, text, user_id } = {} } = req.body;
-  const newPaste = {
-    id: ++lastPasteId, // Increment last ID, then assign as the current ID
-    name,
-    syntax,
-    exposure,
-    expiration,
-    text,
-    user_id,
-  };
-  pastes.push(newPaste);
-  res.status(201).json({data: newPaste});
+  if (text) {
+    const newPaste = {
+      id: ++lastPasteId, // Increment last ID, then assign as the current ID
+      name,
+      syntax,
+      exposure,
+      expiration,
+      text,
+      user_id,
+    };
+    pastes.push(newPaste);
+    res.status(201).json({ data: newPaste });
+  } else {
+    res.sendStatus(400);
+  }
 });
 
 
