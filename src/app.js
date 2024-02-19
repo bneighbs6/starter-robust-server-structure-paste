@@ -1,6 +1,11 @@
 const express = require("express");
 const app = express();
 
+// express.json() is a built in middleware
+// It adds a body property to request method (req.body)
+// req.body will contain the parsed JSON data or return an empty object if there's an error 
+app.use(express.json())
+
 // TODO: Follow instructions in the checkpoint to implement ths API.
 // Requiring paste data from ./data/pastes-data
 const pastes = require("./data/pastes-data");
@@ -24,7 +29,9 @@ app.use("/pastes/:pasteId", (req, res, next) => {
 
 // Creating Route "/pastes" that will access 
 // paste data and return it to user.
-app.use("/pastes", (req, res) => {
+
+//By changing the code from app.use(...) to app.get(...), you're making it so that the handler will be called only if the HTTP method of the incoming request is GET.
+app.get("/pastes", (req, res) => {
   res.json({data: pastes});
 });
 
