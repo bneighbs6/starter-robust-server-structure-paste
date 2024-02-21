@@ -38,6 +38,16 @@ app.get("/pastes", (req, res) => {
 // POST Request. ONLY used when making POST request to "/pastes"
 // Variable to hold the next ID
 // Because some IDs may already be used, find the largest assigned ID
+
+// New middleware function to validate the request body
+function bodyHasTextProperty(req, res, next) {
+  const { data: { text } = {} } = req.body;
+  if (text) {
+    return next(); // Call `next()` without an error message if the result exists
+  }
+  next("A 'text' property is required.");
+}
+
 let lastPasteId = pastes.reduce((maxId, paste) => Math.max(maxId, paste.id), 0);
 
 app.post("/pastes", (req, res, next) => {
