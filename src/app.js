@@ -50,23 +50,25 @@ function bodyHasTextProperty(req, res, next) {
 
 let lastPasteId = pastes.reduce((maxId, paste) => Math.max(maxId, paste.id), 0);
 
-app.post("/pastes", (req, res, next) => {
-  const { data: { name, syntax, exposure, expiration, text } = {} } = req.body;
-  if (text) {
+app.post(
+  "/pastes",
+  bodyHasTextProperty, // Add validation middleware function
+  (req, res) => {
+    // Route handler no longer has validation code.
+    const { data: { name, syntax, exposure, expiration, text, user_id } = {} } = req.body;
     const newPaste = {
-      id: ++lastPasteId, // Increment last ID, then assign as the current ID
+      id: ++lastPasteId, // Increment last id then assign as the current ID
       name,
       syntax,
       exposure,
       expiration,
       text,
+      user_id,
     };
     pastes.push(newPaste);
     res.status(201).json({ data: newPaste });
-   } else {
-     res.sendStatus(400);
-   }
-});
+  }
+);
 
 
 // Not found handler
