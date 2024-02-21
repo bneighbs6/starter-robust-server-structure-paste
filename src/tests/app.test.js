@@ -3,5 +3,7 @@ const pastes = require("../src/data/pastes-data"); // Load pastes data
 const app = require("..src/app"); // Load Express server
 
 describe("path /pastes", () => {
-    // Add tests here
+    beforeEach(() => {
+        pastes.splice(0, pastes.length); // Clears out the pastes data
+    })
 })
