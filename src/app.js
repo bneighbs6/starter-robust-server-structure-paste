@@ -45,7 +45,9 @@ function bodyHasTextProperty(req, res, next) {
   if (text) {
     return next(); // Call `next()` without an error message if the result exists
   }
-  next("A 'text' property is required.");
+  next({
+    status: 400,
+    message: "A 'text' property is required."});
 }
 
 let lastPasteId = pastes.reduce((maxId, paste) => Math.max(maxId, paste.id), 0);
