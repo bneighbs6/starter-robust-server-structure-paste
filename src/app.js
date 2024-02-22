@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 
-const pasteRouter = require("./pastes/pastes.router") // Imports paste router 
+const pastesRouter = require("./pastes/pastes.router") // Imports paste router 
 
 // express.json() is a built in middleware
 // It adds a body property to request method (req.body)
@@ -36,44 +36,15 @@ app.use("/pastes/:pasteId", (req, res, next) => {
 //By changing the code from app.use(...) to app.get(...), you're making it so that the handler will be called only if the HTTP method of the incoming request is GET.
 
 // Updated from app.get() to the code below to be able to handle the pasteRouter
-app.use("/pastes", pasteRouter)
+app.use("/pastes", pastesRouter)
 
 // POST Request. ONLY used when making POST request to "/pastes"
 // Variable to hold the next ID
 // Because some IDs may already be used, find the largest assigned ID
 
-// New middleware function to validate the request body
-function bodyHasTextProperty(req, res, next) {
-  const { data: { text } = {} } = req.body;
-  if (text) {
-    return next(); // Call `next()` without an error message if the result exists
-  }
-  next({
-    status: 400,
-    message: "A 'text' property is required."});
-}
 
-let lastPasteId = pastes.reduce((maxId, paste) => Math.max(maxId, paste.id), 0);
 
-app.post(
-  "/pastes",
-  bodyHasTextProperty, // Add validation middleware function
-  (req, res) => {
-    // Route handler no longer has validation code.
-    const { data: { name, syntax, exposure, expiration, text, user_id } = {} } = req.body;
-    const newPaste = {
-      id: ++lastPasteId, // Increment last id then assign as the current ID
-      name,
-      syntax,
-      exposure,
-      expiration,
-      text,
-      user_id,
-    };
-    pastes.push(newPaste);
-    res.status(201).json({ data: newPaste });
-  }
-);
+
 
 
 // Not found handler
