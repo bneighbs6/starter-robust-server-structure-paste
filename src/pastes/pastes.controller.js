@@ -69,7 +69,7 @@ function create(req, res) {
     res.status(201).json({ data: newPaste });
 }
 
-
+// Order of exports matters
 module.exports = {
     create: [
         bodyDataHas("name"),
@@ -78,6 +78,9 @@ module.exports = {
         bodyDataHas("expiration"),
         bodyDataHas("text"),
         bodyDataHas("user_id"),
+        exposurePropertyIsValid,
+        syntaxPropertyIsValid,
+        expirationPropertyIsValid,
         create
     ],
     list,
