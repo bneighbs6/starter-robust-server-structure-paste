@@ -23,7 +23,8 @@ app.use("/pastes/:pasteId", (req, res, next) => {
     res.json({ data: foundPaste });
   } else {
     // Calls next with an error mesage to move request to error handler. 
-    next(`Paste id not found: ${pasteId}`);
+    // Updating next call to have a 404 status w/ its message. 
+    next({status: 404, message: `Paste id not found: ${pasteId}`});
   }
 })
 
@@ -81,7 +82,8 @@ app.use((request, response, next) => {
 // Error handler
 app.use((error, request, response, next) => {
   console.error(error);
-  response.send(error);
+  const { status = 500, message = "Something went wrong!" } = error;
+  response.status(status).json({ error: message });
 });
 
 module.exports = app;
