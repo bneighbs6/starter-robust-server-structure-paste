@@ -32,6 +32,16 @@ function exposurePropertyIsValid(req, res, next) {
     });
 }
 
+function syntaxPropertyIsValid(req, res, next) {
+    const {data: {syntax} = {}} = req.body;
+    const validSyntax = ["None", "Javascript", "Pythong", "Ruby", "Perl", "C", "Scheme"];
+    if (validSyntax.includes(syntax)) {
+        next()
+    }
+    next({status: 400, message: `Value of 'syntax' property must be one of ${validSyntax}. Received: ${syntax}`
+})
+}
+
 
 
   function create(req, res) {
