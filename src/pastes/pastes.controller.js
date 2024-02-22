@@ -24,33 +24,36 @@ function exposurePropertyIsValid(req, res, next) {
     const { data: { exposure } = {} } = req.body;
     const validExposure = ["private", "public"];
     if (validExposure.includes(exposure)) {
-        next();
+      return next();
     }
     next({
-        status: 400,
-        message: `Value of the 'exposure' property must be one of ${validExposure}. Received ${exposure}`,
+      status: 400,
+      message: `Value of the 'exposure' property must be one of ${validExposure}. Received: ${exposure}`,
     });
-}
-
-function syntaxPropertyIsValid(req, res, next) {
+  }
+  
+  function syntaxPropertyIsValid(req, res, next) {
     const { data: { syntax } = {} } = req.body;
-    const validSyntax = ["None", "Javascript", "Pythong", "Ruby", "Perl", "C", "Scheme"];
+    const validSyntax = ["None", "Javascript", "Python", "Ruby", "Perl", "C", "Scheme"];
     if (validSyntax.includes(syntax)) {
-        next()
+      return next();
     }
     next({
-        status: 400, message: `Value of 'syntax' property must be one of ${validSyntax}. Received: ${syntax}`
-    })
-}
-
-function expirationPropertyIsValid(req, res, next) {
-    const {data: {expiration} = {}} = req.body; 
-    if (expiration <= 0 || Number.isInteger(expiration)) {
-        next({status: 400, message: `Expiration requires a valid number. Received: ${expiration}`
+      status: 400,
+      message: `Value of the 'syntax' property must be one of ${validSyntax}. Received: ${syntax}`,
     });
+  }
+  
+  function expirationIsValidNumber(req, res, next){
+    const { data: { expiration }  = {} } = req.body;
+    if (expiration <= 0 || !Number.isInteger(expiration)){
+        return next({
+            status: 400,
+            message: `Expiration requires a valid number`
+        });
     }
     next();
-}
+  }
 
 
 
@@ -69,6 +72,25 @@ function create(req, res) {
     res.status(201).json({ data: newPaste });
 }
 
+// These fx replace Route for "/pastes/:pasteId"
+function pasteExists(req, res, next) {
+    const { pasteId } = req.params;
+    const foundPaste = pastes.find((paste) => paste.id === Number(pasteId));
+    if (foundPaste) {
+        return nexxt();
+    }
+    next({ 
+        status: 400, 
+        message: `Paste id not found: ${pasteId}`,
+    });
+}
+
+function read(req, res) {
+    const {pasteId} = req.params;
+    const foundPaste = pastes.find((paste) => paste.id === Number(pasteId));
+    res.json({data: foundPaste});
+}
+
 // Order of exports matters
 module.exports = {
     create: [
@@ -80,7 +102,7 @@ module.exports = {
         bodyDataHas("user_id"),
         exposurePropertyIsValid,
         syntaxPropertyIsValid,
-        expirationPropertyIsValid,
+        expirationIsValidNumber,
         create
     ],
     list,
