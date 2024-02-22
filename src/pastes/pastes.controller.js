@@ -9,15 +9,30 @@ let lastPasteId = pastes.reduce((maxId, paste) => Math.max(maxId, paste.id), 0);
 
 
 // New middleware function to validate the request body
-function bodyHasTextProperty(req, res, next) {
-    const { data: { text } = {} } = req.body;
-    if (text) {
-      return next(); // Call `next()` without an error message if the result exists
+// Updated to allow validation of any given parameter (propertyName)
+function bodyDataHas(propertyName) {
+    return function (req, res, next) {
+        const { data = {} } = req.body;
+        if (data[propertyName]) {
+            return next()
+        }
+        next({ status: 400, message: `Must include a ${propertyName}` })
+    }
+}
+
+function exposurePropertyIsValid(req, res, next) {
+    const {data: {exposure} = {}} = req.body;
+    const validExposure = ["private", "public"];
+    if (validExposure.includes(exposure)) {
+        next();
     }
     next({
-      status: 400,
-      message: "A 'text' property is required."});
-  }
+        status: 400,
+        message: `Value of the 'exposure' property must be one of ${validExposure}. Received ${exposure}`,
+    });
+}
+
+
 
   function create(req, res) {
     const { data: { name, syntax, exposure, expiration, text, user_id} = {} } = req.body;
@@ -36,6 +51,14 @@ function bodyHasTextProperty(req, res, next) {
 
 
 module.exports = {
-    create: [bodyHasTextProperty, create],
+    create: [
+        bodyDataHas("name"),
+        bodyDataHas("syntax"),
+        bodyDataHas("exposure"),
+        bodyDataHas("expiration"),
+        bodyDataHas("text"),
+        bodyDataHas("user_id"),
+        create
+    ],
     list,
 };
