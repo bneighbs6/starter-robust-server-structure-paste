@@ -19,7 +19,7 @@ function bodyDataHas(propertyName) {
         next({ status: 400, message: `Must include a ${propertyName}` })
     }
 }
-
+// Tests if exposure property is valid
 function exposurePropertyIsValid(req, res, next) {
     const { data: { exposure } = {} } = req.body;
     const validExposure = ["private", "public"];
@@ -31,7 +31,7 @@ function exposurePropertyIsValid(req, res, next) {
       message: `Value of the 'exposure' property must be one of ${validExposure}. Received: ${exposure}`,
     });
   }
-  
+  // Tests if syntax property is valid
   function syntaxPropertyIsValid(req, res, next) {
     const { data: { syntax } = {} } = req.body;
     const validSyntax = ["None", "Javascript", "Python", "Ruby", "Perl", "C", "Scheme"];
@@ -43,7 +43,7 @@ function exposurePropertyIsValid(req, res, next) {
       message: `Value of the 'syntax' property must be one of ${validSyntax}. Received: ${syntax}`,
     });
   }
-  
+  // Tests if expiration property is valid
   function expirationIsValidNumber(req, res, next){
     const { data: { expiration }  = {} } = req.body;
     if (expiration <= 0 || !Number.isInteger(expiration)){
@@ -72,12 +72,12 @@ function create(req, res) {
     res.status(201).json({ data: newPaste });
 }
 
-// These fx replace Route for "/pastes/:pasteId"
+// pasteExists() and read() fx replace Route for "/pastes/:pasteId"
 function pasteExists(req, res, next) {
     const { pasteId } = req.params;
     const foundPaste = pastes.find((paste) => paste.id === Number(pasteId));
     if (foundPaste) {
-        return nexxt();
+        return next();
     }
     next({ 
         status: 400, 
@@ -106,4 +106,5 @@ module.exports = {
         create
     ],
     list,
+    read: [pasteExists, read],
 };
