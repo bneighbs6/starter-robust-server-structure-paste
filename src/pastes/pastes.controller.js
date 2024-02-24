@@ -107,6 +107,16 @@ function update(req, res) {
     res.json({ data: foundPaste });
  }
 
+
+ // Delete existing paste
+ function destroy(req, res) {
+    const { pasteId } = req.params; 
+    const index = pastes.findIndex((paste) => paste.id === Number(pasteId));
+    // splice returns an array of the deleted elements, even if it is one element
+    const deletedPaste = pastes.slice(index, 1);
+    res.sendStatus(204);
+ }
+
 // Order of exports matters
 module.exports = {
     create: [
