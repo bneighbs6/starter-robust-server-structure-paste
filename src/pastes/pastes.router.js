@@ -6,6 +6,6 @@ get(controller.list) // using route() allows you to write the path once, and the
 .post(controller.create);  
 
 // new route for "/:pasteId" using the read fx from paste.controller
-router.route("/:pasteId").get(controller.read).put(controller.update);
+router.route("/:pasteId").get(controller.read).put(controller.update).delete(controller.destroy);
 
 module.exports = router; 
