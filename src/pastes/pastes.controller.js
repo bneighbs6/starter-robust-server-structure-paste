@@ -144,5 +144,6 @@ module.exports = {
         syntaxPropertyIsValid,
         expirationIsValidNumber,
         update
-    ]
+    ],
+    delete: [pasteExists, destroy],
 };
