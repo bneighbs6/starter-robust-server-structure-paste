@@ -95,9 +95,7 @@ function read(req, res) {
 
 // Updates an existing paste
 function update(req, res) {
-    const { pasteId } = req.params; 
-    const foundPaste = pastes.find((paste) => paste.id === Number(pasteId));
-    res.locals.paste = foundPaste
+    const paste = res.locals.paste;
     const { data: { name, syntax, expiration, exposure, text } = {} } = req.body;
     
     // Update the paste
