@@ -77,6 +77,7 @@ function pasteExists(req, res, next) {
     const { pasteId } = req.params;
     const foundPaste = pastes.find((paste) => paste.id === Number(pasteId));
     if (foundPaste) {
+        res.locals.paste = foundPaste;
         return next();
     }
     next({ 
