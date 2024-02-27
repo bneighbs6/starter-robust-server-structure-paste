@@ -2,7 +2,7 @@ const router = require("express").Router(); // Creates new instance of Express r
 const controller = require("./pastes.controller"); // Importes the /pastes controller
 const methodNotAllowed = require("../errors/methodNotAllowed");
 
-// new route for "/:pasteId" using the read fx from paste.controller
+// new route for "/:pasteId" using the read fx from paste.controller.js
 router.route("/:pasteId")
 .get(controller.read) // Get request to read the paste
 .put(controller.update) // Put request to update the paste
