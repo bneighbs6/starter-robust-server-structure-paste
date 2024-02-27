@@ -88,27 +88,26 @@ function create(req, res) {
     res.status(201).json({ data: newPaste });
 }
 
-
+// Reads list of paste data
 function read(req, res) {
-    const {pasteId} = req.params;
-    const foundPaste = pastes.find((paste) => paste.id === Number(pasteId));
-    res.json({data: foundPaste});
+    res.json({data: res.locals.paste});
 }
 
 // Updates an existing paste
 function update(req, res) {
     const { pasteId } = req.params; 
     const foundPaste = pastes.find((paste) => paste.id === Number(pasteId));
+    res.locals.paste = foundPaste
     const { data: { name, syntax, expiration, exposure, text } = {} } = req.body;
     
     // Update the paste
-    foundPaste.name = name;
-    foundPaste.syntax = syntax;
-    foundPaste.expiration = expiration;
-    foundPaste.exposure = exposure;
-    foundPaste.text = text; 
+    paste.name = name;
+    paste.syntax = syntax;
+    paste.expiration = expiration;
+    paste.exposure = exposure;
+    paste.text = text; 
 
-    res.json({ data: foundPaste });
+    res.json({ data: paste });
  }
 
 
