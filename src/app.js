@@ -3,6 +3,8 @@ const app = express();
 
 const pastesRouter = require("./pastes/pastes.router") // Imports paste router 
 
+const usersRouter = require("./users/users.router") // Imports users router
+
 // express.json() is a built in middleware
 // It adds a body property to request method (req.body)
 // req.body will contain the parsed JSON data or return an empty object if there's an error 
@@ -12,22 +14,13 @@ app.use(express.json())
 // Requiring paste data from ./data/pastes-data
 const pastes = require("./data/pastes-data");
 
-// Creating Route "/pastes" that will access 
-// paste data and return it to user.
-
-//By changing the code from app.use(...) to app.get(...), you're making it so that the handler will be called only if the HTTP method of the incoming request is GET.
 
 // Updated from app.get() to the code below to be able to handle the pasteRouter
-app.use("/pastes", pastesRouter)
+// Attaches "/pastes" prefix to the url of any route defined in pastesRouter
+app.use("/pastes", pastesRouter);
 
-// POST Request. ONLY used when making POST request to "/pastes"
-// Variable to hold the next ID
-// Because some IDs may already be used, find the largest assigned ID
-
-
-
-
-
+// attaches "/users" prefix to the url of any route defined in /users
+app.use("/users", usersRouter)
 
 // Not found handler
 app.use((request, response, next) => {
