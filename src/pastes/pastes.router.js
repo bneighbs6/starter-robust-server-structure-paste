@@ -10,6 +10,6 @@ router.route("/:pasteId")
 .all(methodNotAllowed); // Called at the end to be called only if no earlier handler completes request
 
 // using route() allows you to write the path once, and then chain multiple route handlers to that path. .get(controller.list) uses the list() route handler defined in the controller for GET requests to "/".
-router.route("/").get(controller.list).post(controller.create).all(methodNotAllowed);  
+router.route("/").get(controller.list).post(controller.create).all(methodNotAllowed);
 
 module.exports = router; 
