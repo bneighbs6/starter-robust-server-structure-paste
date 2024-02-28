@@ -120,9 +120,9 @@ function update(req, res) {
 
  // Will filter the pastes array by userId if userId is a route parameter
  function list(req, res) {
-    const { userId } = req.params; 
+    const { userId } = req.params;
     res.json({ data: pastes.filter(userId ? paste => paste.user_id == userId : () => true) });
-}
+  }
 
 // Order of exports matters
 module.exports = {
