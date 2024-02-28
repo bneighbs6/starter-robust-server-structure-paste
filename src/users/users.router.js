@@ -9,7 +9,8 @@ const controller = require("./users.controller");
 const pastesRouter = require("../pastes/pastes.router");
 
 // Nested Route. Attaching /pastes route to /users route
-router.use("/:userId/pastes", pastesRouter);
+// Calling userExits() before pastesRouter ensures proper err message accurately reflects the problem
+router.use("/:userId/pastes", controller.userExists, pastesRouter);
 
 // Create route for "/:userId"
 router.route("/:userId").get(controller.read).all(methodNotAllowed); // read() shows the specified user data from userId
