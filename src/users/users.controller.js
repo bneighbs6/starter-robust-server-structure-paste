@@ -19,7 +19,7 @@ function userExists(req, res, next) {
 
 // read() reads the foundUser
 function read(req, res, next) {
-    res.json({ data: res.locals.user });
+    res.json({ data: res.locals.user }); // res.locals.user === foundUser in userExists() fx above
 }
 
 // Exports

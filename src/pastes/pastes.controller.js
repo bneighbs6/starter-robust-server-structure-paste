@@ -16,6 +16,7 @@ function bodyDataHas(propertyName) {
     }
 }
 
+// Middleware function pasteExists() verifies if a paste exists 
 // pasteExists() and read() fx replace Route for "/pastes/:pasteId"
 function pasteExists(req, res, next) {
     const { pasteId } = req.params;
