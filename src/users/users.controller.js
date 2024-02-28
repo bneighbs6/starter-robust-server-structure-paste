@@ -25,5 +25,6 @@ function read(req, res, next) {
 // Exports
 module.exports = {
     list,
-    read: [userExists, read]
+    read: [userExists, read],
+    userExists,
 }
