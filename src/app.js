@@ -19,7 +19,7 @@ const pastes = require("./data/pastes-data");
 // Attaches "/pastes" prefix to the url of any route defined in pastesRouter
 app.use("/pastes", pastesRouter);
 
-// attaches "/users" prefix to the url of any route defined in /users
+// attaches "/users" prefix to the url of any route defined in usersRouter
 app.use("/users", usersRouter)
 
 // Not found handler
