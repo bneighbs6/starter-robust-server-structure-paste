@@ -14,7 +14,9 @@ app.use(express.json())
 // Requiring paste data from ./data/pastes-data
 const pastes = require("./data/pastes-data");
 
-
+app.use("/", (req, res, next) => {
+  res.send("Welcome")
+})
 // Updated from app.get() to the code below to be able to handle the pasteRouter
 // Attaches "/pastes" prefix to the url of any route defined in pastesRouter
 app.use("/pastes", pastesRouter);
