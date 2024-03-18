@@ -27,7 +27,7 @@ app.use("/products", productsRouter);
 
 // Welcome page
 app.use("/", (req, res, next) => {
-  res.send("Welcome")
+  res.send("Welcome to the starter-robust-server APP")
 })
 
 // Not found handler
