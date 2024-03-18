@@ -5,6 +5,8 @@ const pastesRouter = require("./pastes/pastes.router") // Imports paste router
 
 const usersRouter = require("./users/users.router") // Imports users router
 
+const productsRouter = require("./products/products.router")
+
 // express.json() is a built in middleware
 // It adds a body property to request method (req.body)
 // req.body will contain the parsed JSON data or return an empty object if there's an error 
@@ -20,6 +22,8 @@ app.use("/pastes", pastesRouter);
 
 // attaches "/users" prefix to the url of any route defined in usersRouter
 app.use("/users", usersRouter)
+
+app.use("/products", productsRouter);
 
 // Welcome page
 app.use("/", (req, res, next) => {
